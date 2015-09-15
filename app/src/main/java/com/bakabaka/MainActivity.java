@@ -253,14 +253,16 @@ public class MainActivity extends Activity
 			mMode = 2;
 		}
 
+		processIntent(getIntent());
+
 		EditText edit=(EditText)findViewById(R.id.num);
 		String num = edit.getText().toString();
 		if (!TextUtils.isEmpty(num) && !TextUtils.isEmpty(mData))
 		{
 			int i = Integer.parseInt(num);
-			if (i > 1000)
+			if (i > 3000)
 			{
-				Toast.makeText(this, "金额超出1000", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "金额超出3000", Toast.LENGTH_SHORT).show();
 			}
 			else if (getMoney(mData) > 3000 && mMode == 3)
 			{
