@@ -1,0 +1,18 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">  
+    <!--点击背景-->
+    <item android:state_pressed="true">
+        <shape>
+			<!--色值-->
+            <solid android:color="#0098F9" />
+            <!--圆角-->
+            <corners android:radius="0dp" />
+        </shape>
+    </item>
+    <!--默认背景-->
+    <item>
+		<shape>
+			<solid android:color="#2690F3" />
+			<corners android:radius="0dp" />
+        </shape>
+    </item>
+</selector>

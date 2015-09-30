@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">蛤意盎然</string>
+	<string name="info">将卡放在手机后方点击读卡</string>
+	<string name="read_card">读卡</string>
+	<string name="write_card">写卡</string>
+	<string name="money_clear">清零</string>
+	<string name="money_incr">加钱</string>
+	<string name="money_decr">扣钱</string>
+	<string name="money_replace">自定义</string>
+
+</resources>
+
