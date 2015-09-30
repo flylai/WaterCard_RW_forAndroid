@@ -404,7 +404,7 @@ class nfcStatusDialog extends DialogFragment
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setTitle("NFC错误");
-		builder.setMessage("<b>NFC未开启或者设备不支持NFC，或者手机NFC芯片不支持此卡。</b>");
+		builder.setMessage("NFC未开启或者设备不支持NFC，或者手机NFC芯片不支持此卡。");
 		builder.setPositiveButton("知道了", new DialogInterface.OnClickListener() {
 
 				@Override
