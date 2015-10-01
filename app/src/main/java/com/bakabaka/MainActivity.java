@@ -52,9 +52,9 @@ public class MainActivity extends Activity
 		mIntentFilters = new IntentFilter[] { new IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED), };
 		mPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
 
-		warningDialog dialog = new warningDialog();
-		dialog.setCancelable(false);
-		dialog.show(getFragmentManager(), "");
+		warningDialog warningDialog = new warningDialog();
+		warningDialog.setCancelable(false);
+		warningDialog.show(getFragmentManager(), "");
 
 		getNfcStatus();
 	}
@@ -79,9 +79,9 @@ public class MainActivity extends Activity
 			btn1.setClickable(false);
 			Button btn2 = (Button)findViewById(R.id.write_card);
 			btn2.setClickable(false);
-			nfcStatusDialog dialog2 = new nfcStatusDialog();
-			dialog2.setCancelable(false);
-			dialog2.show(getFragmentManager(), "");
+			nfcStatusDialog nfcStatusDialog = new nfcStatusDialog();
+			nfcStatusDialog.setCancelable(false);
+			nfcStatusDialog.show(getFragmentManager(), "");
 		}
 	}
 
@@ -91,8 +91,6 @@ public class MainActivity extends Activity
 		if (mAdapter != null && mAdapter.isEnabled())
 		{
 			mAdapter.enableForegroundDispatch(this, mPendingIntent, mIntentFilters, mTechList);
-			Toast.makeText(this, "ha" , Toast.LENGTH_SHORT).show();
-
 			if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(getIntent().getAction()))
 			{
 				Toast.makeText(this, "发现新卡", Toast.LENGTH_SHORT).show();
@@ -296,12 +294,10 @@ public class MainActivity extends Activity
 	{
 
 		String cardMoney = null;
-		String str1 = mData.substring(0, 1);
-		String str2 = mData.substring(1, 2);
-		String str3 = mData.substring(2, 3);
-		String str4 = mData.substring(3, 4);
+		String str1 = mData.substring(0, 2);
+		String str2 = mData.substring(2, 4);
 		valueStr = mData.substring(4, 32);
-		cardMoney = str3 + str4 + str1 + str2;
+		cardMoney = str2 + str1;
 		Integer intCardMoney = Integer.parseInt(cardMoney, 16);
 		return intCardMoney;
 	}
@@ -357,12 +353,10 @@ public class MainActivity extends Activity
 		{
 			cardMoney = "000" + cardMoney;
 		}
-		String str1 = cardMoney.substring(0, 1);
-		String str2 = cardMoney.substring(1, 2);
-		String str3 = cardMoney.substring(2, 3);
-		String str4 = cardMoney.substring(3, 4);
+		String str1 = cardMoney.substring(0, 2);
+		String str2 = cardMoney.substring(2, 4);
 
-		cardMoney = str3 + str4 + str1 + str2;
+		cardMoney = str2 + str1;
 
 		return cardMoney;
 	}
@@ -417,4 +411,5 @@ class nfcStatusDialog extends DialogFragment
 	}
 
 }
+
 
