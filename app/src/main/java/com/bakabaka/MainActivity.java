@@ -12,13 +12,15 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.os.Build;
 import android.widget.Toast;
 import android.widget.TextView;
 import android.widget.RadioButton;
 import android.widget.EditText;
 import android.widget.Button;
 import android.view.View;
+import android.provider.Settings;
+import android.text.TextUtils;
 import java.io.IOException;
 
 
@@ -163,7 +165,7 @@ public class MainActivity extends Activity
 		{
 			System.out.println(tech);
 		}
-		boolean verify = false;	
+		boolean cardVerify = false;	
 		MifareClassic mfc = MifareClassic.get(tagFromIntent);	
 		try
 		{	
@@ -175,9 +177,9 @@ public class MainActivity extends Activity
 				readLog += "卡类型正确\n";
 			}
 			readLog += "卡号：" + getTagId(intent);
-			verify = mfc.authenticateSectorWithKeyB(mSector, keys);
+			cardVerify = mfc.authenticateSectorWithKeyB(mSector, keys);
 			int bIndex;	
-			if (verify)
+			if (cardVerify)
 			{
 				bIndex = mfc.sectorToBlock(mSector) + mBlock2;
 				byte[] data = mfc.readBlock(bIndex);
@@ -206,15 +208,13 @@ public class MainActivity extends Activity
 		{
 			mfc.close();
 			mfc.connect();
-			boolean verify = false;
-			verify = mfc.authenticateSectorWithKeyB(mSector, keys);
-			if (verify)
+			boolean cardVerify = false;
+			cardVerify = mfc.authenticateSectorWithKeyB(mSector, keys);
+			if (cardVerify)
 			{
 				int block1 = mfc.sectorToBlock(mSector) + mBlock1;
 				int block2 = mfc.sectorToBlock(mSector) + mBlock2;
 				String dataTemp = willWriteMoney(mData, mMode, intAddMoney) + valueStr;
-
-				Toast.makeText(this, willWriteMoney(mData, mMode, intAddMoney), Toast.LENGTH_SHORT).show();
 				mfc.writeBlock(block1, hexString2Byte(dataTemp));
 				mfc.writeBlock(block2, hexString2Byte(dataTemp));
 
@@ -399,12 +399,25 @@ class nfcStatusDialog extends DialogFragment
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setTitle("NFC错误");
 		builder.setMessage("NFC未开启或者设备不支持NFC，或者手机NFC芯片不支持此卡。");
-		builder.setPositiveButton("知道了", new DialogInterface.OnClickListener() {
+		builder.setPositiveButton("退出", new DialogInterface.OnClickListener() {
 
 				@Override
 				public void onClick(DialogInterface p1, int p2)
 				{
 					getActivity().finish();
+				}
+			});
+		builder.setNegativeButton("NFC设置", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface p1, int p2)
+				{
+					if (Build.VERSION.SDK_INT >= 16)
+					{
+						startActivity(new Intent(Settings.ACTION_NFC_SETTINGS));
+					}
+					else
+					{
+						startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
+					}
 				}
 			});
 		return builder.create();
