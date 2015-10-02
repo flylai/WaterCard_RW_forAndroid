@@ -408,6 +408,8 @@ class nfcStatusDialog extends DialogFragment
 				}
 			});
 		builder.setNegativeButton("NFC设置", new DialogInterface.OnClickListener() {
+
+				@Override
 				public void onClick(DialogInterface p1, int p2)
 				{
 					if (Build.VERSION.SDK_INT >= 16)
