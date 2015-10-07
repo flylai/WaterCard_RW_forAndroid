@@ -197,7 +197,7 @@ public class MainActivity extends Activity
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();	
+			Toast.makeText(this,"与卡的连接丢失，或设备不支持",Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -218,13 +218,13 @@ public class MainActivity extends Activity
 				mfc.writeBlock(block1, hexString2Byte(dataTemp));
 				mfc.writeBlock(block2, hexString2Byte(dataTemp));
 
-				mfc.close();
 				Toast.makeText(this, "写入成功", Toast.LENGTH_SHORT).show();
+				mfc.close();
 			}
 		}
 		catch (IOException e)
 		{
-			e.printStackTrace();
+			Toast.makeText(this, "种种原因导致写入失败", Toast.LENGTH_SHORT).show();
 		}
 		finally
 		{
