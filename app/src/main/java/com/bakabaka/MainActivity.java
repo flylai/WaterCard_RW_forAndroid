@@ -118,17 +118,11 @@ public class MainActivity extends Activity
 	{
 		int len = str.length();
 		byte[] data = new byte[len / 2];
-		try
+		for (int i = 0; i < len; i += 2)
 		{
-			for (int i = 0; i < len; i += 2)
-			{
-				data[i / 2] = (byte) ((Character.digit(str.charAt(i), 16) << 4) + Character.digit(str.charAt(i + 1), 16));
-			}
+			data[i / 2] = (byte) ((Character.digit(str.charAt(i), 16) << 4) + Character.digit(str.charAt(i + 1), 16));
 		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+
 		return data;
  	}
 
@@ -194,10 +188,11 @@ public class MainActivity extends Activity
 			}
 			TextView promt=(TextView)findViewById(R.id.promt);
 			promt.setText(readLog);
+			mfc.close();
 		}
 		catch (Exception e)
 		{
-			Toast.makeText(this,"与卡的连接丢失，或设备不支持",Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "与卡的连接丢失，或设备不支持", Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -206,7 +201,8 @@ public class MainActivity extends Activity
 		MifareClassic mfc = MifareClassic.get(mTag);
 		try
 		{
-			mfc.close();
+			processIntent(getIntent());
+
 			mfc.connect();
 			boolean cardVerify = false;
 			cardVerify = mfc.authenticateSectorWithKeyB(mSector, keys);
@@ -215,6 +211,7 @@ public class MainActivity extends Activity
 				int block1 = mfc.sectorToBlock(mSector) + mBlock1;
 				int block2 = mfc.sectorToBlock(mSector) + mBlock2;
 				String dataTemp = willWriteMoney(mData, mMode, intAddMoney) + valueStr;
+
 				mfc.writeBlock(block1, hexString2Byte(dataTemp));
 				mfc.writeBlock(block2, hexString2Byte(dataTemp));
 
@@ -226,17 +223,7 @@ public class MainActivity extends Activity
 		{
 			Toast.makeText(this, "种种原因导致写入失败", Toast.LENGTH_SHORT).show();
 		}
-		finally
-		{
-			try
-			{
-				mfc.close();
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
-		}
+		processIntent(getIntent());
  	}
 
 	public void writeMoney(View view)
