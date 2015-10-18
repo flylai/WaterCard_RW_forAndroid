@@ -62,8 +62,9 @@ public class MainActivity extends Activity
 	}
 
 	@Override
-	public void onNewIntent(Intent intent)
+	protected void onNewIntent(Intent intent)
 	{
+		super.onNewIntent(intent);
 		setIntent(intent);
 		Button btn1 = (Button)findViewById(R.id.read_card);
 		btn1.setClickable(true);
@@ -201,8 +202,6 @@ public class MainActivity extends Activity
 		MifareClassic mfc = MifareClassic.get(mTag);
 		try
 		{
-			processIntent(getIntent());
-
 			mfc.connect();
 			boolean cardVerify = false;
 			cardVerify = mfc.authenticateSectorWithKeyB(mSector, keys);
