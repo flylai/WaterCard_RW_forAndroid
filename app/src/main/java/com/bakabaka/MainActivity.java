@@ -155,15 +155,11 @@ public class MainActivity extends Activity
 	@Override
  	private void processIntent(Intent intent)
 	{
-		Tag tagFromIntent = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);	
-		for (String tech : tagFromIntent.getTechList())
-		{
-			System.out.println(tech);
-		}
-		boolean cardVerify = false;	
-		MifareClassic mfc = MifareClassic.get(tagFromIntent);	
+		Tag tagFromIntent = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+		boolean cardVerify = false;
+		MifareClassic mfc = MifareClassic.get(tagFromIntent);
 		try
-		{	
+		{
 			String readLog = "";
 			mfc.connect();
 			int type = mfc.getType();
@@ -173,7 +169,7 @@ public class MainActivity extends Activity
 			}
 			readLog += "卡号：" + getTagId(intent);
 			cardVerify = mfc.authenticateSectorWithKeyB(mSector, keys);
-			int bIndex;	
+			int bIndex;
 			if (cardVerify)
 			{
 				bIndex = mfc.sectorToBlock(mSector) + mBlock2;
@@ -228,6 +224,9 @@ public class MainActivity extends Activity
 	public void writeMoney(View view)
 	{
 
+		if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(getIntent().getAction()))
+		processIntent(getIntent());
+
 		RadioButton moneyClear = (RadioButton)findViewById(R.id.moneyClear);
 		RadioButton moneyIncr = (RadioButton)findViewById(R.id.moneyIncr);
 		RadioButton moneyDecr = (RadioButton)findViewById(R.id.moneyDecr);
@@ -251,8 +250,6 @@ public class MainActivity extends Activity
 		{
 			mMode = 2;
 		}
-
-		processIntent(getIntent());
 
 		EditText edit=(EditText)findViewById(R.id.num);
 		String num = edit.getText().toString();
