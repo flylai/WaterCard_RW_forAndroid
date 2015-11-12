@@ -71,7 +71,6 @@ public class MainActivity extends Activity
 		Button btn2 = (Button)findViewById(R.id.write_card);
 		btn2.setClickable(true);
 		mTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-		return;
 	}
 
 	public void getNfcStatus()
@@ -88,7 +87,7 @@ public class MainActivity extends Activity
 		}
 	}
 
-	public void onResume()
+	protected void onResume()
 	{
 		super.onResume();
 		if (mAdapter != null && mAdapter.isEnabled())
@@ -175,7 +174,6 @@ public class MainActivity extends Activity
 				bIndex = mfc.sectorToBlock(mSector) + mBlock2;
 				byte[] data = mfc.readBlock(bIndex);
 				mData = byte2HexString(data);
-				//readLog += "Block " + bIndex + " : " + mData + "\n";
 				double mon = getMoney(mData) / 100.00;
 				readLog += "\n余额：" + mon;
 			}
@@ -210,7 +208,7 @@ public class MainActivity extends Activity
 				mfc.writeBlock(block1, hexString2Byte(dataTemp));
 				mfc.writeBlock(block2, hexString2Byte(dataTemp));
 
-				Toast.makeText(this, "写入成功", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "写入成功：" + intAddMoney / 100.00 + "元", Toast.LENGTH_SHORT).show();
 				mfc.close();
 			}
 		}
