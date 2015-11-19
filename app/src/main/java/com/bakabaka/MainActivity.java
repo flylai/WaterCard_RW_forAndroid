@@ -96,6 +96,7 @@ public class MainActivity extends Activity
 			if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(getIntent().getAction()))
 			{
 				Toast.makeText(this, "发现新卡", Toast.LENGTH_SHORT).show();
+				mTag = getIntent().getParcelableExtra(NfcAdapter.EXTRA_TAG);
 			}
 		}
  	}
