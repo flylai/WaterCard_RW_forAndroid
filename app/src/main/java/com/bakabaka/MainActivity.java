@@ -30,7 +30,7 @@ public class MainActivity extends Activity
 
 	private static NfcAdapter mAdapter;
 
-	byte[] keys = hexString2Byte("F3B1BF94E9D1");
+	byte[] keys = hexString2Byte("FFFFFFFFFFFF");
 
 	private String[][] mTechList;
 	private IntentFilter[] mIntentFilters;
